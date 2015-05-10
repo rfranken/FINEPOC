@@ -5,16 +5,7 @@ angular.module('myApp', [
   'ngRoute',
   'myApp.version'
 ])
-    .service("IDUpdate", function($rootScope) {
-        return {
-            setID: function(type, id) {
-                this[type] = id;
-                $rootScope.$broadcast("IDUpdated", {
-                    type: type, recID: id
-                });
-            }
-        }
-    })
+
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.
             when('/multirow'  , {templateUrl: 'partials/multiRow.html', controller: 'multiRowCtrl'}).
@@ -23,7 +14,7 @@ angular.module('myApp', [
             when('/add'       , {templateUrl: 'partials/singleRow.html', controller: 'singleRowCtrl'}).
             otherwise(          {templateUrl: 'partials/multiRow.html',controller: 'multiRowCtrl'});
     }])
-    .controller('multiRowCtrl', function( $scope, $http, IDUpdate) {
+    .controller('multiRowCtrl', function( $scope, $http) {
 
         console.log('in de multiRowCtrl controller')
 
