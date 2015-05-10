@@ -1,0 +1,23 @@
+<h1>Dit is de Multi Row view</h1>
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>NAME</th>
+        <th>TEXT</th>
+        <th>AUD_DATE_CREATED</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="product in Products">
+        <td>
+            <a href="#/edit:{{$index}}">{{product.ID}}</a>
+        </td>
+        <td>{{product.NAME}}</td>
+        <td>{{product.TEXT}}</td>
+        <td>{{product.AUD_DATE_CREATED}}</td>
+        <td><button class="btn btn-danger" ng-click="remove(emp.ID)">Remove</button> </td>
+        <td><button class="btn btn-warning" ng-click="edit($index)">Edit</button> </td>
+    </tr>
+    </tbody>
+</table>
