@@ -1,1 +1,26 @@
 <p>This is the partial for SINGLEROW</p>
+<h1>{{product.NAME}}</h1>
+<table width="50%" class="table-responsive" bgcolor="#d3d3d3">
+    <tr>
+        <td>ID</td>
+        <td>&nbsp;</td>
+        <td><input class="form-control" ng-model="product.ID" ng-change="change()"></td>
+    </tr>
+    <tr>
+        <td>Naam</td>
+        <td>&nbsp;</td>
+        <td><input class="form-control" ng-model="product.NAME" ng-change="change()"></td>
+    </tr>
+    <tr>
+        <td>Text</td>
+        <td>&nbsp;</td>
+        <td><input class="form-control" ng-model="product.TEXT"></td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td><button  ng-model="button" ng-hide="nothingToCommit" ng-click="update()">Leg vast
+        </button> </td>
+    </tr>
+
+</table>

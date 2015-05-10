@@ -9,11 +9,11 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="product in Products">
+    <tr ng-repeat="product in productlist">
         <td>
-            <a href="#/edit:{{$index}}">{{product.ID}}</a>
+            <a href="#/edit/{{$index}}">{{product.ID}}</a>
         </td>
-        <td>{{product.NAME}}</td>
+            <td>{{product.NAME}}</td>
         <td>{{product.TEXT}}</td>
         <td>{{product.AUD_DATE_CREATED}}</td>
         <td><button class="btn btn-danger" ng-click="remove(emp.ID)">Remove</button> </td>
