@@ -2,39 +2,46 @@
 
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
-  'ngRoute',
-  'myApp.version'
+    'ngRoute',
+    'ngResource',
+    'myApp.version'
 ])
 
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.
             when('/multirow'  , {templateUrl: 'partials/multiRow.html', controller: 'multiRowCtrl'}).
-            when('/singlerow' , {redirectTo:  'partials/singleRow.html'}).
+            when('/singlerow' , {redirectTo:  'partials/singleRow.html', controller: 'singleRowCtrl'}).
             when('/edit/:id'  , {templateUrl: 'partials/singleRow.html', controller: 'singleRowCtrl'}).
             when('/add'       , {templateUrl: 'partials/singleRow.html', controller: 'singleRowCtrl'}).
-            otherwise(          {templateUrl: 'partials/multiRow.html',controller: 'multiRowCtrl'});
+            otherwise(          {templateUrl: 'partials/multiRow.html'});
     }])
-    .controller('multiRowCtrl', function( $scope, $http) {
+    .factory('Product', function ($resource) {
+        "use strict";
+       // return $resource('http://wlo1.open-i.nl:8888/rest/fine/finecr%24products/:id/?app_name=Fine&fields=ID%2CNAME%2CTEXT%2CAUD_CREATED_BY', {},
+        return $resource('http://wlo1.open-i.nl:8888/rest/fine/finecr%24products/:id/',
+            {
+                app_name    : 'Fine'
+            },
+            {  update: { method: 'PUT' },
+               query:  {method: 'GET', isArray: false  }
+            });
+    })
+    .controller('multiRowCtrl', function( $scope, Product) {
+        "use strict";
 
         console.log('in de multiRowCtrl controller')
 
-
-        var refresh = function() {
-            $http.get('http://wlo1.open-i.nl:8888/rest/fine/finecr%24products?app_name=Fine')
-                .success(function(response){
-                    console.log('data wordt ververst');
-                    // De rijen zitten in een 'record' node, dus:
-                    $scope.productlist = response.record;
-                    console.log('data is ververst');
-                    //     $scope.emp ="";
-                })
-                .error(function(response){
-                    console.log('Fout: ' +response);
-                })
-        }
+        $scope.action="Add";
 
         console.log("Refresh scope.");
-        refresh();
+
+        $scope.paramsObj = {
+            fields  : 'ID, NAME,TEXT,AUD_CREATED_BY',
+            limit   : 10,
+            offset  : 0,
+            order   : 'TEXT ASC'
+        }
+        $scope.productlist = Product.get($scope.paramsObj);
 
         $scope.edit = function(id) {
             console.log(id);
@@ -42,27 +49,49 @@ angular.module('myApp', [
             window.location.href = "#/edit/" + id;
         }
 
+        $scope.add = function() {
+            console.log('Add');
+            $scope.modus = 'ADD';
+            window.location.href = "#/add/";
+        }
 
     })
 
-
-    .controller('singleRowCtrl', ['$scope','$http', '$routeParams', function ($scope,$http,$routeParams) {
+    .controller('singleRowCtrl',  function ($scope, $routeParams, Product) {
         console.log('singlerow...')
-        if (angular.isDefined($scope.productlist)) {
+        if (angular.isDefined($scope.productlist.record)) {
             console.log('id=' + $routeParams.id);
-            $scope.product = $scope.productlist[$routeParams.id];
+            $scope.product = $scope.productlist.record[$routeParams.id];
         } else {
             console.log('$scope.productlist is niet gedefinieerd');
             // Reload is hier niet mogelijk, daarom terug naar hoofdscherm.
             // window.location.href = "/";
         }
 
-        $scope.update = function () {
-            console.log($scope.product.ID);
-            $http.put('http://wlo1.open-i.nl:8888/rest/fine/EMP/' + $scope.product.ID + '?app_name=Fine', $scope.product).success(function(response) {
-                console.log('update uitgevoerd')
-            })
+        $scope.updateItem = function () {
+            var product = this.product;
+
+            Product.update({id:product.ID}, product, function () {
+                updateByAttr($scope.productlist.record, 'id', product.ID, product);
+
+            });
 
         }
 
-    }]);
+        var updateByAttr = function(arr, attr1, value1, newRecord){
+            if(!arr){
+                return false;
+            }
+            var i = arr.length;
+            while(i--){
+                if(arr[i] && arr[i][attr1] && (arguments.length > 2 && arr[i][attr1] === value1 )){
+                    arr[i] = newRecord;
+                }
+            }
+            return arr;
+        };
+
+
+
+
+    });
