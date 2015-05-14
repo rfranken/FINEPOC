@@ -5,19 +5,20 @@
         <th>ID</th>
         <th>NAME</th>
         <th>TEXT</th>
-        <th>AUD_DATE_CREATED</th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="product in productlist">
+    <tr ng-repeat="record in recordSet.record" id="row_{{record.ID}}">
         <td>
-            <a href="#/edit/{{$index}}">{{product.ID}}</a>
+            <a href="#/edit/{{$index}}">{{record.ID}}</a>
         </td>
-            <td>{{product.NAME}}</td>
-        <td>{{product.TEXT}}</td>
-        <td>{{product.AUD_DATE_CREATED}}</td>
-        <td><button class="btn btn-danger" ng-click="remove(emp.ID)">Remove</button> </td>
+        <td>{{record.NAME}}</td>
+        <td>{{record.TEXT}}</td>
+        <td><button class="btn btn-danger" ng-click="record(emp.ID)">Remove</button> </td>
         <td><button class="btn btn-warning" ng-click="edit($index)">Edit</button> </td>
+    </tr>
+    <tr>
+        <td><button class="btn btn-warning" ng-click="add()">Add</button> </td>
     </tr>
     </tbody>
 </table>

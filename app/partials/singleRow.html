@@ -1,4 +1,4 @@
-<p>This is the partial for SINGLEROW</p>
+<p>This is the partial for SINGLEROW Read Only</p>
 <h1>{{product.NAME}}</h1>
 <table width="50%" class="table-responsive" bgcolor="#d3d3d3">
     <tr>
@@ -17,9 +17,14 @@
         <td><input class="form-control" ng-model="product.TEXT"></td>
     </tr>
     <tr>
+        <td>Gemaakt door</td>
+        <td>&nbsp;</td>
+        <td><input class="form-control" ng-model="product.AUD_CREATED_BY"></td>
+    </tr>
+    <tr>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-        <td><button  ng-model="button" ng-hide="nothingToCommit" ng-click="update()">Leg vast
+        <td><button  ng-model="button" ng-hide="nothingToCommit" ng-click="updateItem()">Leg vast
         </button> </td>
     </tr>
 
