@@ -8,13 +8,13 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="product in productlist.record" id="row_{{product.ID}}">
+    <tr ng-repeat="record in recordSet.record" id="row_{{record.ID}}">
         <td>
-            <a href="#/edit/{{$index}}">{{product.ID}}</a>
+            <a href="#/edit/{{$index}}">{{record.ID}}</a>
         </td>
-        <td>{{product.NAME}}</td>
-        <td>{{product.TEXT}}</td>
-        <td><button class="btn btn-danger" ng-click="remove(emp.ID)">Remove</button> </td>
+        <td>{{record.NAME}}</td>
+        <td>{{record.TEXT}}</td>
+        <td><button class="btn btn-danger" ng-click="record(emp.ID)">Remove</button> </td>
         <td><button class="btn btn-warning" ng-click="edit($index)">Edit</button> </td>
     </tr>
     <tr>

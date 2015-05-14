@@ -11,13 +11,12 @@ angular.module('myApp', [
         $routeProvider.
             when('/multirow'  , {templateUrl: 'partials/multiRow.html', controller: 'multiRowCtrl'}).
             when('/singlerow' , {redirectTo:  'partials/singleRow.html', controller: 'singleRowCtrl'}).
-            when('/edit/:id'  , {templateUrl: 'partials/singleRow.html', controller: 'singleRowCtrl'}).
-            when('/add'       , {templateUrl: 'partials/singleRow.html', controller: 'singleRowCtrl'}).
+            when('/edit/:id'  , {templateUrl: 'partials/DMLForm.html', controller: 'dmlCtrl'}).
+            when('/add'       , {templateUrl: 'partials/DMLForm.html', controller: 'dmlCtrl'}).
             otherwise(          {templateUrl: 'partials/multiRow.html'});
     }])
     .factory('Product', function ($resource) {
         "use strict";
-       // return $resource('http://wlo1.open-i.nl:8888/rest/fine/finecr%24products/:id/?app_name=Fine&fields=ID%2CNAME%2CTEXT%2CAUD_CREATED_BY', {},
         return $resource('http://wlo1.open-i.nl:8888/rest/fine/finecr%24products/:id/',
             {
                 app_name    : 'Fine'
@@ -41,7 +40,8 @@ angular.module('myApp', [
             offset  : 0,
             order   : 'TEXT ASC'
         }
-        $scope.productlist = Product.get($scope.paramsObj);
+        $scope.modus ='QUERY';
+        $scope.recordSet = Product.query($scope.paramsObj);
 
         $scope.edit = function(id) {
             console.log(id);
@@ -52,28 +52,40 @@ angular.module('myApp', [
         $scope.add = function() {
             console.log('Add');
             $scope.modus = 'ADD';
+            console.log ('Scope.modus is gezet op ADD');
             window.location.href = "#/add/";
         }
 
     })
 
     .controller('singleRowCtrl',  function ($scope, $routeParams, Product) {
-        console.log('singlerow...')
-        if (angular.isDefined($scope.productlist.record)) {
-            console.log('id=' + $routeParams.id);
-            $scope.product = $scope.productlist.record[$routeParams.id];
+        console.log('singleRow ...')
+    })
+
+    .controller('dmlCtrl',  function ($scope, $routeParams, Product) {
+        console.log('DML...')
+        if (angular.isDefined($scope.recordSet.record)) {
+            console.log('modus:' + $scope.modus);
+            $scope.dmlRow = $scope.recordSet.record[$routeParams.id];
         } else {
-            console.log('$scope.productlist is niet gedefinieerd');
+            console.log('$scope.recordSet is niet gedefinieerd');
             // Reload is hier niet mogelijk, daarom terug naar hoofdscherm.
-            // window.location.href = "/";
+            //window.location.href = "multirow";
         }
 
         $scope.updateItem = function () {
-            var product = this.product;
+            var dmlRow = this.dmlRow;
 
-            Product.update({id:product.ID}, product, function () {
-                updateByAttr($scope.productlist.record, 'id', product.ID, product);
-
+            Product.update( {id:dmlRow.ID}, dmlRow,
+            function(result) {
+                // handle success
+                // like assign to a var or something
+                // here we just log it
+                console.log(result)
+            },
+            function(error) {
+                //console.log('Error: ' + error.status + ':' + error.statusText);
+                $scope.dmlResult = 'Error: ' + error.status + ':' + error.statusText;
             });
 
         }
@@ -91,6 +103,18 @@ angular.module('myApp', [
             return arr;
         };
 
+        // FALSE hides the commit button:
+        $scope.somethingToCommit = false;
+
+        $scope.change = function() {
+            $scope.somethingToCommit = true;
+        }
+
+
+        $scope.addRow = function() {
+            console.log('ik doe een insert');
+            Product.save( {id:$scope.newRow.ID}, $scope.newRow )
+         }
 
 
 

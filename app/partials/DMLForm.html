@@ -1,0 +1,72 @@
+<div id="DMLForm">
+    <p>Dit is de partial for DML Form
+    </p>
+    <h1>{{dmlRow.NAME}}</h1>
+    <input name="modus" ng-model="modus"/>
+    <form name="DMLForm" novalidate ng-submit="doUpdate(product)"
+            ng-class="showValidation ? 'validate' : '' ">
+        <div class="well">
+            <div class="form-group">
+                <table width="70%" class="table-responsive" bgcolor="#d3d3d3">
+                    <tr>
+                        <td>ID</td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <input name="ID" required class="form-control" size="5"
+                                   placeholder="enter a valid ID"
+                                   ng-required="true"
+                                   ng-model="dmlRow.ID" ng-change="change()"/>
+                        </td>
+                        <td width="50%">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>Naam</td>
+                        <td>&nbsp;</td>
+                        <td><input name="NAME" required class="form-control" size="10"
+                                   placeholder="enter a valid name"
+                                   ng-minlength="3" ng-required="true"
+                                   ng-model="dmlRow.NAME" ng-change="change()"/>
+                        </td>
+                            <td width="50%">
+                                <span ng-show="DMLForm.$error.minlength">
+                                    <span class="alert">Minimaal 3 karakters</span>
+                                </span>
+                                <span ng-show="DMLForm.$error.required">
+                                    <span class="alert">verplicht</span>
+                                </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Text</td>
+                        <td>&nbsp;</td>
+                        <td><input name="TEXT" required class="form-control" size="30"
+                                   ng-model="dmlRow.TEXT"
+                                   placeholder="Geef de naam op"
+                                   ng-minlength="3" ng-required="true"/>
+                        </td>
+                        <td><span ng-show="DMLForm.$error.minlength || DMLForm.$error.required">Minimaal 5 karakters</span>
+                            <span ng-show="DMLForm.$error.required">required!</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Gemaakt door</td>
+                        <td>&nbsp;</td>
+                        <td><input name="AUD_CREATED_BY" class="form-control" ng-model="dmlRow.AUD_CREATED_BY"></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td><button ng-model="button" ng-click="updateItem()">Leg vast
+                            </button>
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+                <div class="has-error" ng-show="showValidation">
+                    {{getError(DMLForm.NAME.$error)}}
+                </div>
+                <div class="has-error">DML Result: {{dmlResult}}</div>
+                </div>
+            </div>
+        </form>
+</div>
