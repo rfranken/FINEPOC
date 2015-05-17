@@ -2,22 +2,28 @@
     <p>Dit is de partial for DML Form
     </p>
     <h1>{{dmlRow.NAME}}</h1>
-    <input name="modus" ng-model="modus"/>
-    <form name="DMLForm" novalidate ng-submit="doUpdate(product)"
+    <div class="alert alert-info">Modus:<b>{{formStatus}}</b>  Pristine: <b>{{DMLForm.$pristine}}</b>  Geldig: <b>{{(!DMLForm.$invalid)}}</b></div>
+    </div>
+    <form name="DMLForm" novalidate
             ng-class="showValidation ? 'validate' : '' ">
         <div class="well">
             <div class="form-group">
                 <table width="70%" class="table-responsive" bgcolor="#d3d3d3">
                     <tr>
+
                         <td>ID</td>
                         <td>&nbsp;</td>
                         <td>
                             <input name="ID" required class="form-control" size="5"
                                    placeholder="enter a valid ID"
                                    ng-required="true"
-                                   ng-model="dmlRow.ID" ng-change="change()"/>
+                                   ng-pattern="matchPatternID"
+                                   ng-model="dmlRow.ID"/>
                         </td>
-                        <td width="50%">&nbsp;</td>
+                        <td width="40%">
+                            <div class="alert alert-warning" ng-show="DMLForm.ID.$error.pattern">Alleen numeriek toegestaan</div>
+                            <div class="alert alert-warning" ng-show="DMLForm.ID.$error.required">Dit veld is verplicht</div>
+                        </td>
                     </tr>
                     <tr>
                         <td>Naam</td>
@@ -25,15 +31,10 @@
                         <td><input name="NAME" required class="form-control" size="10"
                                    placeholder="enter a valid name"
                                    ng-minlength="3" ng-required="true"
-                                   ng-model="dmlRow.NAME" ng-change="change()"/>
+                                   ng-model="dmlRow.NAME"/>
                         </td>
-                            <td width="50%">
-                                <span ng-show="DMLForm.$error.minlength">
-                                    <span class="alert">Minimaal 3 karakters</span>
-                                </span>
-                                <span ng-show="DMLForm.$error.required">
-                                    <span class="alert">verplicht</span>
-                                </span>
+                         <td>
+                             <div class="alert alert-warning" ng-show="DMLForm.NAME.$error.required">Dit veld is verplicht</div>
                         </td>
                     </tr>
                     <tr>
@@ -42,10 +43,11 @@
                         <td><input name="TEXT" required class="form-control" size="30"
                                    ng-model="dmlRow.TEXT"
                                    placeholder="Geef de naam op"
-                                   ng-minlength="3" ng-required="true"/>
+                                   ng-minlength="5" ng-required="true"/>
                         </td>
-                        <td><span ng-show="DMLForm.$error.minlength || DMLForm.$error.required">Minimaal 5 karakters</span>
-                            <span ng-show="DMLForm.$error.required">required!</span>
+                        <td>
+                            <div class="alert alert-warning" ng-show="DMLForm.TEXT.$error.required">Dit veld is verplicht</div>
+                            <div class="alert alert-warning" ng-show="DMLForm.TEXT.$error.minlength">Minimaal 5 karakters</div>
                         </td>
                     </tr>
                     <tr>
@@ -56,16 +58,28 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
-                        <td><button ng-model="button" ng-click="updateItem()">Leg vast
-                            </button>
+                        <td>
+                            <div ng-show="DMLForm.$valid">
+                                <button ng-show="showButton('UPDATE',!DMLForm.$invalid, DMLFORM.$pristine, formStatus)" ng-model="button" ng-click="updateRow()">Leg wijziging vast
+                                </button>
+                                <button ng-show="showButton('INSERT',!DMLForm.$invalid, DMLFORM.$pristine, formStatus)"    ng-model="button" ng-click="addRow()">Voeg toe
+                                </button>
+                                <button class="btn-danger" ng-show="showButton('DELETE',!DMLForm.$invalid, DMLFORM.$pristine, formStatus)" ng-model="button" ng-click="deleteRow()">Verwijder
+                                </button>
+                            </div>
+                            <!-- Indien er hierboven GEEN button werd getoond,dan de disabled button laten zien:-->
+                            <div ng-show="showButton('NONE',!DMLForm.$invalid, DMLFORM.$pristine, formStatus)">
+                                <button class="disabled" disabled>Niet actief</button>
+                            </div>
+
                         </td>
                         <td>&nbsp;</td>
                     </tr>
                 </table>
-                <div class="has-error" ng-show="showValidation">
+                <div class="alert alert-info" ng-show="showValidation">
                     {{getError(DMLForm.NAME.$error)}}
                 </div>
-                <div class="has-error">DML Result: {{dmlResult}}</div>
+                <div class="alert alert-info">DML Result: <b>{{dmlResult}}</b></div>
                 </div>
             </div>
         </form>
