@@ -11,19 +11,19 @@ angular.module('myApp', [
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.
             when('/multirow'  , {templateUrl: 'partials/multiRow.html' }).
-            when('/dml/:id'       , {templateUrl: 'partials/DMLForm.html'  , controller: 'dmlCtrl'}).
+            when('/dml/:id'   , {templateUrl: 'partials/DMLForm.html'  , controller: 'dmlCtrl'}).
             when('/refresh'   , {templateUrl: 'partials/multiRow.html' , controller: 'multiRowCtrl'}).
             otherwise(          {templateUrl: 'partials/multiRow.html'});
     }])
 
     .factory('TableService', function ($resource) {
         "use strict";
-        return $resource('http://wlo1.open-i.nl:8888/rest/fine/finecr%24products/:id/',
+        return $resource('http://wlo1.open-i.nl:8888/rest/fine/'+ 'finecr$products'+ '/:id/',
             {
                 app_name    : 'Fine'
             },
-            {  update: { method: 'PUT' },
-                query:  {method: 'GET', isArray: false  },
+            {   update: {method: 'PUT' },
+                 query: {method: 'GET', isArray: false  },
                 delete: {method: 'DELETE'}
             });
     })
@@ -38,11 +38,21 @@ angular.module('myApp', [
             limit   : 10,
             offset  : 0,
             order   : 'TEXT ASC'
+            // Voorbeeld Filter:
+            ,filter  : 'NAME LIKE \'%' + '%\''
         };
 
         $scope.executeQuery  = function() {
+            if(angular.isUndefined($scope.MR)) {
+                $scope.MR= {
+                    filterValueName : ''
+                }
+            };
+            $scope.paramsObj = {
+                filter  : 'NAME LIKE \'%'+ $scope.MR.filterValueName +'%\''
+            };
             $scope.recordSet = TableService.query($scope.paramsObj);
-            console.log("Refresh scope.");
+            console.log("Refresh recordset.");
         }
 
         $scope.edit = function(id) {
