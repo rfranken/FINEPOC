@@ -11,7 +11,7 @@ angular.module('myApp', [
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.
             when('/multirow'  , {templateUrl: 'partials/multiRow.html' }).
-            when('/dml/:id'   , {templateUrl: 'partials/DMLForm.html'  , controller: 'dmlCtrl'}).
+            when('/dml/:modus', {templateUrl: 'partials/DMLForm.html'  , controller: 'dmlCtrl'}).
             when('/refresh'   , {templateUrl: 'partials/multiRow.html' , controller: 'multiRowCtrl'}).
             otherwise(          {templateUrl: 'partials/multiRow.html'});
     }])
@@ -34,7 +34,7 @@ angular.module('myApp', [
 
         $scope.paramsObj = {
             // Let op: geen spaties in onderstaande string!
-            fields  : 'ID,NAME,TEXT,AUD_CREATED_BY',
+            fields  : 'ID,NAME,TEXT,AUD_CREATED_BY,AUD_DATE_CREATED',
             limit   : 10,
             offset  : 0,
             order   : 'TEXT ASC'
@@ -43,37 +43,35 @@ angular.module('myApp', [
         };
 
         $scope.executeQuery  = function() {
-            if(angular.isUndefined($scope.MR)) {
-                $scope.MR= {
-                    filterValueName : ''
-                }
-            };
-            $scope.paramsObj = {
-                filter  : 'NAME LIKE \'%'+ $scope.MR.filterValueName +'%\''
-            };
+            $scope.paramsObj.filter  = 'NAME LIKE \'%'+ $scope.MR.filterValueName +'%\'';
             $scope.recordSet = TableService.query($scope.paramsObj);
             console.log("Refresh recordset.");
-        }
+        };
 
-        $scope.edit = function(id) {
-            console.log(id);
-            window.location.href = "#/dml/" + id + '?modus=UPDATE';
+        $scope.edit = function(index) {
+            console.log('Index:' + index);
+            $scope.dmlRow = $scope.recordSet.record[index];
+            window.location.href = "#/dml/UPDATE";
         };
 
         $scope.add = function() {
             console.log('Add');
-            window.location.href = "#/dml/0?modus=INSERT";
+            $scope.dmlRow = {};
+            window.location.href = "#/dml/modus=INSERT";
         };
 
 
-        $scope.delete = function(id) {
-            console.log('Delete id=' + id);
-            window.location.href = "#/dml/" + id + '?modus=DELETE';
+        $scope.delete = function(index) {
+            console.log('Delete id=' + index);
+            $scope.dmlRow = $scope.recordSet.record[index];
+            window.location.href = "#/dml/modus=DELETE";
         }
 
 
+        console.log('executeQuery');
+        $scope.MR = {};
+        $scope.MR.filterValueName = '';
         $scope.executeQuery();
-
     })
 
     .controller('singleRowCtrl',  function ($scope, $routeParams, TableService) {
@@ -81,17 +79,9 @@ angular.module('myApp', [
     })
 
     .controller('dmlCtrl',  function ($scope, $routeParams, TableService) {
-        console.log('DML...');
+        console.log('In de DML Controller...');
         // Afleiden formstatus:
         $scope.formStatus = $routeParams.modus;
-
-        if (angular.isDefined($scope.recordSet.record) && $scope.formStatus!=='INSERT') {
-            $scope.dmlRow = $scope.recordSet.record[$routeParams.id];
-        } else {
-            console.log('$scope.recordSet is niet gedefinieerd');
-            // Reload is hier niet mogelijk, daarom terug naar hoofdscherm.
-            //window.location.href = "multirow";
-        }
 
 
         $scope.updateRow = function () {
@@ -173,7 +163,8 @@ angular.module('myApp', [
         }
 
 
-    })
+    });
+
 
 
 
