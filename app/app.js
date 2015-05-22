@@ -57,14 +57,14 @@ angular.module('myApp', [
         $scope.add = function() {
             console.log('Add');
             $scope.dmlRow = {};
-            window.location.href = "#/dml/modus=INSERT";
+            window.location.href = "#/dml/INSERT";
         };
 
 
         $scope.delete = function(index) {
             console.log('Delete id=' + index);
             $scope.dmlRow = $scope.recordSet.record[index];
-            window.location.href = "#/dml/modus=DELETE";
+            window.location.href = "#/dml/DELETE";
         }
 
 

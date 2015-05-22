@@ -38,6 +38,18 @@
                         </td>
                     </tr>
                     <tr>
+                        <td>Creatiedatum</td>
+                        <td>&nbsp;</td>
+                        <td><input name="NAME" required class="form-control" size="15"
+                                   placeholder="enter a valid date"
+                                   ng-minlength="3" ng-required="true"
+                                   ng-model="dmlRow.AUD_DATE_CREATED"/>
+                        </td>
+                        <td>
+                            <div class="alert alert-warning" ng-show="DMLForm.NAME.$error.required">Dit veld is verplicht</div>
+                        </td>
+                    </tr>
+                    <tr>
                         <td>Text</td>
                         <td>&nbsp;</td>
                         <td><input name="TEXT" required class="form-control" size="30"
