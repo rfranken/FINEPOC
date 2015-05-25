@@ -1,0 +1,45 @@
+/* app css stylesheet */
+
+@import '../bower_components/bootstrap/less/bootstrap.less';
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+div.top, div.geselecteerd {
+  background-color: black;
+  color:white;
+}
+
+div.searchbox, div.meterOpnameBox {
+  width: 80%;
+  padding: 5px;
+  background-color: #b9def0;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.zoekterm, .invoer {
+  font-weight: bold;
+  horiz-align: left;
+  color: black;
+  font-size: 100%
+}
+
+.row:nth-of-type(odd) {
+  background: #e0e0e0;
+}
+
+td {padding: 10px;}
+
+.alert{
+  padding: 5px;
+}
+
+div.queryBusy {font-weight: bold}
+
+.invoerveld {
+  height: 26px;
+  padding: 10px 16px;
+  font-size: 14px;
+  line-height: 1.3333333;
+  border-radius: 6px;
+}

@@ -65,13 +65,14 @@ angular.module('myApp', [
             console.log('Delete id=' + index);
             $scope.dmlRow = $scope.recordSet.record[index];
             window.location.href = "#/dml/DELETE";
-        }
+        };
 
 
         console.log('executeQuery');
         $scope.MR = {};
         $scope.MR.filterValueName = '';
         $scope.executeQuery();
+        console.log('klaar');
     })
 
     .controller('singleRowCtrl',  function ($scope, $routeParams, TableService) {

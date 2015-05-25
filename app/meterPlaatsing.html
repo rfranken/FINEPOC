@@ -9,51 +9,38 @@
     <title>FINE POC</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
-
-
     <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
-    <link rel="stylesheet" href="app.css">
     <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
+    <link rel="stylesheet" href="../app/css/meterplaatsing.css">
 
 </head>
-<body ng-controller="meterPlaatsingCtrl">
-
+<body>
     <!--[if lt IE 7]>
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <div class="container">
-        Postcode: 
-                <input name="searchField" placeholder="Zoek op..." ng-model="MR.filterValueName"/>
-                <input class="btn btn-warning" name="doButton" type="submit" value="Zoek"/></td>
-    </div>
-    <div class="container">
-        <div class="main">
+    <br/>
+    <div  align="center" ng-controller="meterPlaatsingCtrl">
+        <div class="container">
             <div>
-                <div ng-view>
+                <div>
+                    <div ng-view>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
 
-    <div>Angular seed app: v<span app-version></span></div>
-
-    <!-- In production use:
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
-    -->
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-modal-service/dst/angular-modal-service.min.js"></script>
-
+    <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="meterplaatsing.js"></script>
-    <script src="components/version/version.js"></script>
-    <script src="components/version/version-directive.js"></script>
-    <script src="components/version/interpolate-filter.js"></script>
 </body>
 </html>

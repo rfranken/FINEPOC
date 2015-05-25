@@ -1,0 +1,103 @@
+<div class="top"><h4>Stap 3. Geef de plaatsingstanden op</h4></div>
+<div class="geselecteerd"><span>Geselecteerde aansluiting: {{connections.selectedRow.EAN_CODE}}
+|   {{connections.selectedRow.STREET}}
+    {{connections.selectedRow.HOUSE_NUMBER}}
+    {{connections.selectedRow.HOUSE_NUMBER_ADD}}
+    {{connections.selectedRow.ZIP_CODE}}
+    {{connections.selectedRow.PLACE}}
+</span></div>
+<div class="geselecteerd"><span>Geselecteerde meter: {{meters.selectedRow.FACTORY_NUMBER}} (Categorie {{meters.selectedRow.CAT_NAME}})</span></div>
+<br/>
+<div class="meterOpnameBox" align="left">
+    <form name="invoerenMeterOpname">
+        <table>
+            <tr>
+                <td>
+                    <span class="label invoer">Datum plaatsing/opname</span>
+                </td>
+                <td>
+                    <input class="invoerveld"
+                           size="10"
+                           name="datumVanOpname"
+                           ng-minlength="10"
+                           ng-maxlength="10"
+                           placeholder="dd.mm.yyyy"
+                           ng-model="meterReadings.record.RECORDING_DATE"/>
+                    <span class="alert alert-warning" ng-show="zoekmeter.fabrieksNummer.minlength">Minimaal 4 tekens</span>
+                </td>
+                <td>
+                    <span class="label invoer">Opnamewijze</span>
+                </td>
+                <td>
+                    <select ng-model="meterReadings.record.METHOD">
+                        <option value="GESCHAT">Geschat</option>
+                        <option value="KLANT OPNAME">Klantopname</option>
+                        <option value="METEROPNEMER">Meteropnemer</option>
+                    </select>
+                </td>
+                <td width="130px" height="52">
+                    <div ng-show="meterReadings.insertInOperation"><img src="images/throbber.gif"/></div>
+                    <div ng-show="meterReadings.insertSuccessful"><img src="images/vink.png"/></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input class="btn btn-warning"
+                           name="doButton"
+                           type="submit"
+                           value="Leg vast"
+                           ng-show="!zoekmeter.$invalid"
+                           ng-click="meterPlacements.register()"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <div class="queryBusy" ng-show="queryInOperation">
+        <span>Wegschrijven...</span>
+    </div>
+</div>
+<br/>
+<div class="meterOpnameBox" ng-show="meterReadings.insertSuccessful">
+  <h4>Plaatsingstanden</h4>
+  <span style="font-size: 12pt">De volgende plaatsingsstanden moeten worden opgegeven bij dit type meter</span>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Telwerksoort</th>
+            <th>Aantal wielen</th>
+            <th>Stand</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody border="0">
+        <tr  ng-repeat="record in counters.recordSet.record" id="row_{{record.ID}}">
+            <td>{{$index+1}}</td>
+            <td>{{record.COP_NAME}}</td>
+            <td>{{record.WHEELS}}</td>
+            <td><input class="invoerveld" ng-model="counters.stand"/></td>
+        </tr>
+        <tr>
+            <td>
+                <input class="btn btn-warning"
+                       name="doButton"
+                       type="submit"
+                       value="Leg vast"
+                       ng-show="!zoekmeter.$invalid"
+                       ng-click="meterReadings.register()"/>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+</div>
+
+<alert
+        type="danger"
+        ng-show="(errorResource.message)"
+        >Onverwache fout opgetreden: {{errorResource.message}}.
+</alert>
+</div>
+
+

@@ -1,0 +1,95 @@
+<div class="top"><h4>Stap 1. Selecteer de aansluiting</h4></div>
+<div class="searchbox" align="left">
+    <form name="zoekconnectie">
+        <table>
+            <tr>
+                <td>
+                    <span class="zoekterm label">Postcode:</span>
+                </td>
+                <td>
+                    <input name="zipCode"
+                           placeholder="9999 AA"
+                           ng-pattern="connections.postCodePattern"
+                           ng-minlength="4"
+                           ng-model="connections.filterZipCode"/>
+                    <span class="alert alert-warning" ng-show="zoekconnectie.zipCode.$error.minlength">Minimaal 4 tekens</span>
+                    <span class="alert alert-warning" ng-show="zoekconnectie.zipCode.$error.pattern">9999 AA</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="zoekterm label">Straat:</span>
+                </td>
+                <td>
+                    <input name="street"
+                           ng-minlength="4"
+                           ng-model="connections.filterStreet"/>
+                    <span class="alert alert-warning" ng-show="zoekconnectie.street.$error.minlength">Minimaal 4 tekens</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input class="btn btn-warning"
+                           name="doButton"
+                           type="submit"
+                           value="Zoek"
+                           ng-minlength="4"
+                           ng-show="!zoekconnectie.$invalid"
+                           ng-click="connections.executeQuery()"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <div class="queryBusy" ng-show="queryInOperation">
+        <span>De gegevens worden opgehaald...</span>
+    </div>
+</div>
+
+<div class="data" ng-show="(connections.recordSet.meta.count &gt;0) && (connections.recordSet.meta.count &lt;20)">
+<table class="table">
+    <thead>
+        <tr>
+            <th>&nbsp;</th>
+            <th>#</th>
+            <th>Plaats</th>
+            <th>Straat</th>
+            <th>Huisnummer</th>
+            <th>EAN-code</th>
+            <th>Postcode</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="row" ng-repeat="record in connections.recordSet.record" id="row_{{record.ID}}">
+            <td>{{$index}}</td>
+            <td>{{record.PLACE}}</td>
+            <td>{{record.STREET}}</td>
+            <td>{{record.HOUSE_NUMBER}}</td>
+            <td>{{record.EAN_CODE}}</td>
+            <td>{{record.ZIP_CODE}}</td>
+            <td><button class="btn btn-danger" ng-click="selectConnection($index)">Selecteer</button> </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+<alert
+        type="danger"
+        close="connections.recordSet.meta.count = -1"
+        ng-show="(connections.recordSet.meta.count &gt;0) && (connections.recordSet.meta.count &gt;20)"
+        >Meer dan 20 rijen gevonden, namelijk {{connections.recordSet.meta.count}}. Geef een specifiekere filter op.
+</alert>
+<alert
+        type="danger"
+        close="connections.recordSet.meta.count = -1"
+        ng-show="(connections.recordSet.meta.count==0)"
+        >Niks gevonden. Geef een minder specifieke filter op.
+</alert>
+<alert
+        type="danger"
+        ng-show="(errorResource.message)"
+        >Onverwache fout opgetreden: {{errorResource.message}}.
+</alert>
+
+
+
