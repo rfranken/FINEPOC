@@ -59,7 +59,6 @@
             <th>Product</th>
             <th>Indic. Tempherl.</th>
             <th>Categorie</th>
-            <th>Product</th>
             <th>&nbsp;</th>
             <th>&nbsp;</th>
         </tr>
@@ -68,10 +67,9 @@
         <tr class="row" ng-repeat="record in meters.recordSet.record" id="row_{{record.ID}}">
             <td>{{$index}}</td>
             <td>{{record.FACTORY_NUMBER}}</td>
+            <td>{{record.PRD_NAME}}</td>
             <td>{{record.INDICATIE_TEMPERATUURHERL}}</td>
             <td>{{record.CAT_NAME}}</td>
-            <td>{{record.PRD_NAME}}</td>
-            <td>{{record.ZIP_CODE}}</td>
             <td><button class="btn btn-danger" ng-click="selectMeter($index)">Selecteer</button> </td>
         </tr>
     </tbody>
