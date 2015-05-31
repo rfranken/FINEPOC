@@ -10,7 +10,7 @@ div.top, div.geselecteerd {
 }
 
 div.searchbox, div.meterOpnameBox {
-  width: 80%;
+  width: 90%;
   padding: 5px;
   background-color: #b9def0;
   -moz-border-radius: 5px;
@@ -28,7 +28,7 @@ div.searchbox, div.meterOpnameBox {
   background: #e0e0e0;
 }
 
-td {padding: 10px;}
+td {padding: 5px;}
 
 .alert{
   padding: 5px;
@@ -36,10 +36,12 @@ td {padding: 10px;}
 
 div.queryBusy {font-weight: bold}
 
-.invoerveld {
-  height: 26px;
-  padding: 10px 16px;
-  font-size: 14px;
-  line-height: 1.3333333;
-  border-radius: 6px;
+
+.stand {
+  width: 7em;
+  font-family: monospace;
+}
+
+.innerTable {
+  width: 100%;
 }
