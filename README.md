@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # angular-seed — the seed for AngularJS apps
 
 This project is an application skeleton for a typical [AngularJS](http://angularjs.org/) web app.
@@ -296,7 +295,3 @@ For more information on AngularJS please check out http://angularjs.org/
 [karma]: http://karma-runner.github.io
 [travis]: https://travis-ci.org/
 [http-server]: https://github.com/nodeapps/http-server
-=======
-# FINEPOC
-POC met AngularJS voor FINE
->>>>>>> ef8b588225142027123c6177d53ae9f1b86922e3

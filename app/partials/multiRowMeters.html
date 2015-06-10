@@ -1,0 +1,96 @@
+<div class="top"><h4>Stap 2. Selecteer de meter</h4></div>
+<div class="geselecteerd">
+    <span>Geselecteerde aansluiting: {{connections.selectedRow.EAN_CODE}}
+|   {{connections.selectedRow.STREET}}
+    {{connections.selectedRow.HOUSE_NUMBER}}
+    {{connections.selectedRow.HOUSE_NUMBER_ADD}}
+    {{connections.selectedRow.ZIP_CODE}}
+    {{connections.selectedRow.PLACE}}
+    </span>
+</div>
+<br/>
+<div class="searchbox" align="left">
+    <form name="zoekmeter">
+        <table>
+            <tr>
+                <td>
+                    <span class="zoekterm label">Fabrieksnummer</span>
+                </td>
+                <td>
+                    <input name="fabrieksNummer"
+                           ng-minlength="4"
+                           ng-model="meters.filterFactoryNumber"/>
+                    <span class="alert alert-warning" ng-show="zoekmeter.fabrieksNummer.minlength">Minimaal 4 tekens</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="zoekterm label">Product:</span>
+                </td>
+                <td>
+                    <input name="product"
+                           ng-minlength="3"
+                           ng-model="meters.filterProductName"/>
+                    <span class="alert alert-warning" ng-show="zoekmeter.product.$error.minlength">Minimaal 3 tekens</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input class="btn btn-warning"
+                           name="doButton"
+                           type="submit"
+                           value="Zoek"
+                           ng-minlength="4"
+                           ng-show="!zoekmeter.$invalid"
+                           ng-click="meters.executeQuery()"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <div class="queryBusy" ng-show="queryInOperation">
+        <span>De metergegevens worden opgehaald...</span>
+    </div>
+</div>
+<div class="data" ng-show="(meters.recordSet.meta.count &gt;0) && (meters.recordSet.meta.count &lt;20)">
+<table class="table">
+    <thead>
+        <tr>
+            <th>&nbsp;</th>
+            <th>#</th>
+            <th>Fabrieksnummer</th>
+            <th>Product</th>
+            <th>Indic. Tempherl.</th>
+            <th>Categorie</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody border="0">
+        <tr class="row" ng-repeat="record in meters.recordSet.record" id="row_{{record.ID}}">
+            <td>{{$index}}</td>
+            <td>{{record.FACTORY_NUMBER}}</td>
+            <td>{{record.PRD_NAME}}</td>
+            <td>{{record.INDICATIE_TEMPERATUURHERL}}</td>
+            <td>{{record.CAT_NAME}}</td>
+            <td><button class="btn btn-danger" ng-click="selectMeter($index)">Selecteer</button> </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+<!--------------------------ALERTS--------------------------------->
+<!-- UI Bootstrap Module is verplicht voor deze: -->
+<alert
+        type="danger"
+        close="meters.recordSet.meta.count = -1"
+        ng-show="(meters.recordSet.meta.count &gt;0) && (meters.recordSet.meta.count &gt;20)"
+        >Meer dan 20 rijen gevonden, namelijk {{meters.recordSet.meta.count}}. Geef een specifiekere filter op.
+</alert>
+<alert
+        type="danger"
+        close="meters.recordSet.meta.count = -1"
+        ng-show="(meters.recordSet.meta.count==0)"
+        >Niks gevonden. Geef een minder specifieke filter op.
+</alert>
+</div>
+
+
